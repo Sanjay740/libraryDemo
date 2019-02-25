@@ -18,11 +18,7 @@ export default class LoginForm extends Component {
 
     login(email, password).then((ok) => {
         console.log(ok)
-    //   if (ok) {
-    //     this.props.onLogin();
-    //   } else {
-    //     this.setState({error: true});
-    //   }
+    
     });
   }
 
