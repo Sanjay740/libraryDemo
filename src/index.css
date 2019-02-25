@@ -644,8 +644,20 @@ textarea.has-error:active {
 table {
   border-collapse: collapse;
   border-spacing: 0;
-  width: 100%;
-  max-width: 100%; }
+  margin-left: 30%;
+  width: 50%; 
+}
+
+.modalImage {
+  width: 20%
+}
+
+.modaltable {
+  border-collapse: collapse;
+  border-spacing: 0;
+  /* margin-left: 30%; */
+  width: 50%; 
+}
 
 thead th {
   border-bottom: 2px solid #dedede; }

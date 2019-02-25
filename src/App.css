@@ -8,6 +8,11 @@
   pointer-events: none;
 }
 
+.bookPreview
+{
+  width:10%
+}
+
 .App-header {
   background-color: #282c34;
   /* min-height: 100vh; */
@@ -42,6 +47,11 @@
   background-color: #333;
 }
 
+.loginForm {
+  width: 50%;
+    margin-left: 28%;
+}
+
 .topnav a {
   float: left;
   display: block;
@@ -64,6 +74,16 @@
 
 .topnav .icon {
   display: none;
+}
+
+.modalImage {
+  width: 50%;
+  margin-right: 25%;
+}
+
+.imageDiv {
+  width: 30%;
+    float: left;
 }
 
 @media screen and (max-width: 600px) {

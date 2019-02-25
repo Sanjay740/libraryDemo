@@ -17,10 +17,8 @@ export default class NavBar extends Component {
         return (
             <div>
                 <div className="topnav" id="myTopnav">                
-                <Link to={`/`} className="active">Home</Link>
-                    <a href="#news">News</a>
-                    <a href="#contact">Contact</a>
-                    <a href="#about">About</a>
+                <Link to={`/`} className="active">Home</Link>                
+                <Link  to={`/memberLogin`} className="active" >Login</Link>                   
                     <a href="javascript:void(0);" className="icon" onClick={this.myFunction}>
                         <i className="fa fa-bars"></i>
                     </a>
