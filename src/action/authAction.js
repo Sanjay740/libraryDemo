@@ -1,12 +1,17 @@
-import { LOGIN } from './types';
+import { LOGIN ,LOGOUT} from './types';
 
-export const login = () => dispatch => {
-    console.log("action dispatch")
-    fetch('https://jsonplaceholder.typicode.com/posts')
-        .then(res => res.json())
-        .then(posts => dispatch({
-            type: FETCH_POSTS,
-            payload: posts
-        }))
+export const loginDispactAction = (response) => dispatch => {   
+    dispatch({
+        type : LOGIN,
+        payload :response
+    })   
 
+}
+
+export const logoutDispatchAction =() => dispatch => {
+    localStorage.removeItem('userData');
+    console.log(localStorage.getItem('userData'))
+    // dispatch({
+    //     type : LOGOUT
+    // })
 }

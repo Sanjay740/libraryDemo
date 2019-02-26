@@ -1,4 +1,4 @@
-import {LOGIN} from '../action/types';
+import {LOGIN, LOGOUT} from '../action/types';
 
 const initialState = {    
     loginCredential : {}
@@ -13,5 +13,14 @@ export default function(state = initialState ,action)
             ...state,
             loginCredential : action.payload
         }
+
+        case LOGOUT:       
+        return {
+            ...state,
+            loginCredential : {}
+        }
+        
+        default :        
+        return state
     }
 }

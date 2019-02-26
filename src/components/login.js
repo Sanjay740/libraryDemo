@@ -1,52 +1,70 @@
 import React, { Component } from 'react';
 import { login } from './auth';
+import { connect } from 'react-redux';
+import {loginDispactAction}  from '../action/authAction'
 
-export default class LoginForm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {email: '', password: '', error: false};
-  }
+class LoginForm extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { email: '', password: '', error: false };
+    }
 
-  handleChange(event) {
-    const {name, value} = event.target;
-    this.setState({[name]: value});
-  }
+    handleChange(event) {
+        const { name, value } = event.target;
+        this.setState({ [name]: value });
+    }
 
-  handleClick(event) {
-    event.preventDefault();
-    const {email, password} = this.state;
+    handleClick(event) {
+        event.preventDefault();
+        const { email, password } = this.state;
 
-    login(email, password).then((ok) => {
-        console.log(ok)
-    
-    });
-  }
+        login(email, password).then((data) => {
+            let response = data[0];
+            if (response != null  && !!response.isLogin) {
+                localStorage.setItem('userData',JSON.stringify(response));
+                this.props.dispatch(loginDispactAction(JSON.stringify(response)));
+                
+            }
+            else {
+                this.setState({ error: true })
+            }
+        });
+    }
 
-  render() {
-    const {email, password, error} = this.state;
-    return (
-      <form className="loginForm">
-        <div className="field">
-          <label className="label">Email</label>
-          <div className="control">
-            <input className="input" type="text" name="email" value={email}
-              onChange={this.handleChange.bind(this)} />
-          </div>
-        </div>
-        <div className="field">
-          <label className="label">Password</label>
-          <div className="control">
-            <input className="input" type="password" name="password" value={password}
-              onChange={this.handleChange.bind(this)} />
-          </div>
-        </div>
-        <div className="field">
-          <p className="help is-danger">{error && 'Invalid credentials'}</p>
-          <div className="control">
-            <button className="button is-link" disabled={!this.state.email && !this.state.password} onClick={this.handleClick.bind(this)}>Login</button>
-          </div>
-        </div>
-      </form>
-    );
-  }
+    render() {
+        const { email, password, error } = this.state;
+        return (
+            <form className="loginForm">
+                <div className="field">
+                    <label className="label">Email</label>
+                    <div className="control">
+                        <input className="input" type="text" name="email" value={email}
+                            onChange={this.handleChange.bind(this)} />
+                    </div>
+                </div>
+                <div className="field">
+                    <label className="label">Password</label>
+                    <div className="control">
+                        <input className="input" type="password" name="password" value={password}
+                            onChange={this.handleChange.bind(this)} />
+                    </div>
+                </div>
+                <div className="field">
+                    <p className="help is-danger">{error && 'Invalid credentials'}</p>
+                    <div className="control">
+                        <button className="button is-link" disabled={!this.state.email && !this.state.password} onClick={this.handleClick.bind(this)}>Login</button>
+                    </div>
+                </div>
+            </form>
+        );
+    }
 }
+// const mapStateToProps = (state) => ({
+//     posts: state.posts.items, 
+//     newPost : state.posts.item
+// })
+
+const mapDispatchToProps = (dispatch) => ({
+    dispatch
+})
+export default connect(mapDispatchToProps)(LoginForm)

@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import './App.css';
 import Routing from './routeConfig';
-// import { Provider } from 'react-redux';
-// import store from './store'
+import { Provider } from 'react-redux';
+import store from './store'
 class App extends Component {
   render() {
     return (  
-      // <Provider store={store}>
+       <Provider store={store}>
       <Routing />
-      // </Provider>
+      </Provider>
     );
   }
 }
