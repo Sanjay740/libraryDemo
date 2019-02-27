@@ -22,8 +22,8 @@ class LoginForm extends Component {
             let response = data[0];
             if (response != null  && !!response.isLogin) {
                 localStorage.setItem('userData',JSON.stringify(response));
-                this.props.dispatch(loginDispactAction(JSON.stringify(response)));
-                
+                this.props.dispatch(loginDispactAction(JSON.stringify(response)));               
+                this.props.history.push('/');
             }
             else {
                 this.setState({ error: true })

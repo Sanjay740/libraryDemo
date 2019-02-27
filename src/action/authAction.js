@@ -8,10 +8,9 @@ export const loginDispactAction = (response) => dispatch => {
 
 }
 
-export const logoutDispatchAction =() => dispatch => {
+export const logoutDispatchAction = ()=> dispatch => {
     localStorage.removeItem('userData');
-    console.log(localStorage.getItem('userData'))
-    // dispatch({
-    //     type : LOGOUT
-    // })
+    dispatch({
+        type : LOGOUT
+    })
 }

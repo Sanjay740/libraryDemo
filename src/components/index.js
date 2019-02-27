@@ -16,6 +16,19 @@ const TableHeader = () => {
   );
 }
 
+const Header = () => {
+  return (
+    <div className="container">
+      <img src={'notebook.jpg'} className="App-logo" />
+      {/* <img src={this.state.image} alt="Notebook" style="width:100%;"></img> */}
+      <div className="content">
+        <h1>Welcome</h1>
+        <p>Lorem ipsum dolor sit amet, an his etiam torquatos. Tollit soleat phaedrum te duo, eum cu recteque expetendis neglegentur. Cu mentitum maiestatis persequeris pro, pri ponderum tractatos ei.</p>
+      </div>
+    </div>
+  )
+}
+
 class App extends Component {
 
   constructor(props) {
@@ -23,7 +36,7 @@ class App extends Component {
     this.state = {
       booksData: [],
       visible: false,
-      previewData: {}
+      previewData: {},
     }
   }
   componentDidMount() {
@@ -44,31 +57,23 @@ class App extends Component {
 
   render() {
     const bookList =
-      <table>
-        <TableHeader />
-        <tbody>
-          {this.state.booksData.map(book => (
-            <tr key={book.id}>
-              <td>{book.title}</td>
-              <td>{book.author}</td>
-              <td>{book.year}</td>
-              <td><button onClick={() => this.assignBook(book)}>Preview</button></td>
-            </tr>
-
-          ))}
-        </tbody>
-      </table>
+      <div className="grid-container">
+        {this.state.booksData.map(book => (
+          <div className="grid-item">
+            <div key={book.id} className="imgcontainer">
+              <img src={book.image} alt="Avatar" className="image" />
+              <div className="middle">
+                <div className="text">{book.author}</div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
 
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={'two-books-11546981096wqgpcixe1y.png'} className="App-logo" />
-          <p>
-            WelCome Guest
-          </p>
-        </header>
-        {bookList}
-
+        <Header />
+        {bookList}       
         <Modal visible={this.state.visible} width="600" height="250" effect="fadeInUp" onClickAway={() => this.closeModal()}>
           <div>
             <h1>{this.state.previewData.title}</h1>

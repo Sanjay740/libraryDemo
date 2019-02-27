@@ -17,7 +17,7 @@ export default function(state = initialState ,action)
         case LOGOUT:       
         return {
             ...state,
-            loginCredential : {}
+            loginCredential : {"isLogin" : false}
         }
         
         default :        

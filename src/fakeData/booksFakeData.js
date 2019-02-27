@@ -22,6 +22,14 @@ const booksData = [
         year: '2015',
         image: '91Ikzzd9meL.jpg',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+    },
+    {
+        id: '4',
+        title: 'Maths',
+        author: 'S.Chand',
+        year: '2015',
+        image: '91Ikzzd9meL.jpg',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
     }
 ];
 

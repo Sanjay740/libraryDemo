@@ -1,12 +1,13 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
 import mainComponent from './components/index';
 import NavBar from './components/navBar';
 import LoginForm from './components/login'
+import history from './history'
 // const Routing= 
 const Routing = () => {
     return (
-<Router>
+<Router  history={history}>
     <div>
         <NavBar />
         <section >
