@@ -56,14 +56,18 @@ class App extends Component {
   }
 
   render() {
-    const bookList =
-      <div className="grid-container">
+    const bookListData =
+      <div className="row col4Padding">
         {this.state.booksData.map(book => (
-          <div className="grid-item">
-            <div key={book.id} className="imgcontainer">
-              <img src={book.image} alt="Avatar" className="image" />
-              <div className="middle">
-                <div className="text">{book.author}</div>
+          <div key={book.id} className="col-sm-4">
+            <div className="grid-item">
+              <div className="imgcontainer">
+                <img src={book.image} alt="Avatar" className="image" />
+                <div className="middle">
+                  <div  className="text">
+                  <span >{book.author}</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -73,7 +77,10 @@ class App extends Component {
     return (
       <div className="App">
         <Header />
-        {bookList}       
+        <div class="container-fluid">
+          {bookListData}
+        </div>
+
         <Modal visible={this.state.visible} width="600" height="250" effect="fadeInUp" onClickAway={() => this.closeModal()}>
           <div>
             <h1>{this.state.previewData.title}</h1>

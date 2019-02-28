@@ -41,7 +41,7 @@
   background: rgb(0, 0, 0); /* Fallback color */
   background: rgba(0, 0, 0, 0.5); /* Black background with 0.5 opacity */
   color: #f1f1f1; /* Grey text */
-  width: 100%; /* Full width */
+  /* width: 100%; Full width */
   padding: 20px; /* Some padding */
 }
 
@@ -55,11 +55,20 @@
 }
 
 .grid-item {
-  background-color :#FFFFF0;
+  /* background-color :#FFFFF0; */
   border: 1px solid rgba(0, 0, 0, 0.8);
   padding: 20px;
-  font-size: 30px;
-  text-align: center;
+  /* font-size: 30px;
+  text-align: center; */
+}
+
+.footerClass {
+  background-color: black;  
+    height: 22Px;
+}
+
+.col4Padding {
+  padding: 25px !important;
 }
 
 .imgcontainer {
@@ -130,6 +139,7 @@
   font-size: 17px;
 }
 
+
 /* Add an active class to highlight the current page */
 .active {
   background-color: #4CAF50;
@@ -143,7 +153,7 @@
 
 /* Dropdown container - needed to position the dropdown content */
 .dropdown {
-  float: left;
+  float: right;
   overflow: hidden;
 }
 
@@ -167,6 +177,9 @@
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
+}
+.registerClass {
+  float: right !important;
 }
 
 /* Style the links inside the dropdown */
@@ -227,4 +240,12 @@
     width: 100%;
     text-align: left;
   }
+}
+
+@media (min-width: 768px)
+{
+.col-sm-4 {
+    width: 33.33333333%;
+    padding: 25px;
+}
 }

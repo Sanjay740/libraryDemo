@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import '../App.css';
+import '../../App.css';
 import { connect } from 'react-redux';
-import { loginDispactAction, logoutDispatchAction } from '../action/authAction';
+import { loginDispactAction, logoutDispatchAction } from '../../action/authAction';
 
 class NavBar extends Component {
     constructor(props) {
@@ -38,6 +38,7 @@ class NavBar extends Component {
         this.props.dispatch(logoutDispatchAction());
     }
 
+
     myFunction() {
         console.log(this)
         var x = document.getElementById("myTopnav");
@@ -53,14 +54,12 @@ class NavBar extends Component {
             <div className="topnav" id="myTopnav">
                 <Link to={`/`} className="active">Home</Link>
                 {!this.state.isUserLogin ? <Link to={`/memberLogin`} >Login</Link> : null}
-                {!!this.state.isUserLogin ? <div className="dropdown">
-                    <button className="dropbtn">Dropdown
-                    </button>
-                    <div className="dropdown-content">
-                        <a href="#">Link 1</a>
-                        <a href="#">Link 2</a>
-                        <a href="#">Link 3</a>
-                    </div>
+                {!!this.state.isUserLogin ? <Link to={`/memberLogin`} >Assigned Book</Link> : null}
+                {!!this.state.isUserLogin ? <Link to={`/memberLogin`} >Returned Book</Link> : null}
+                {!this.state.isUserLogin ? <Link to={`/register`} className="registerClass">Register</Link> : null}
+              {!!this.state.isUserLogin ? <div className="dropdown">
+                    <button onClick={this.logout.bind(this)} className="dropbtn">Logout
+                    </button>                   
                 </div>  : null}             
                 <a href="javascript:void(0);" className="icon" onClick={this.myFunction.bind(this)}>&#9776;</a>
             </div>
