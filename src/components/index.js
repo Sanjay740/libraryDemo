@@ -77,7 +77,7 @@ class App extends Component {
     return (
       <div className="App">
         <Header />
-        <div class="container-fluid">
+        <div className="container-fluid">
           {bookListData}
         </div>
 

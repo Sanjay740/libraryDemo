@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import { login } from '../auth';
 import { connect } from 'react-redux';
-import { loginDispactAction } from '../../action/authAction'
+import { loginDispactAction,adminLoginDispactAction } from '../../action/authAction'
 import './register.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 class LoginForm extends Component {
     constructor(props) {
         super(props);
         this.state = { email: '', password: '', error: false };
+        this.baseState = this.state
     }
 
     handleChange(event) {
@@ -19,16 +22,32 @@ class LoginForm extends Component {
         const { email, password } = this.state;
 
         login(email, password).then((data) => {
-            let response = data[0];
-            if (response != null && !!response.isLogin) {
-                console.log(this.props.history)
-                localStorage.setItem('userData', JSON.stringify(response));
-                this.props.dispatch(loginDispactAction(JSON.stringify(response)));
-                this.props.history.push('/');
+            if ((data.emailExist == false) || (data.success == false)) {
+                toast.warn(data.message, {
+                    position: toast.POSITION.TOP_RIGHT
+                });
+                this.setState(this.baseState)
             }
             else {
-                this.setState({ error: true })
+                toast.success(data.message, {
+                    position: toast.POSITION.TOP_RIGHT
+                });
+                if(data.data.userType == 'user')
+                {
+                    localStorage.setItem('userData', JSON.stringify(data.data));
+                    this.props.dispatch(loginDispactAction(JSON.stringify(data.data)));
+                    this.props.history.push('/');
+                }
+                else
+                {
+                    localStorage.setItem('adminData', JSON.stringify(data.data));
+                    this.props.dispatch(adminLoginDispactAction(JSON.stringify(data.data)));
+                    this.props.history.push('/adminDashboard');
+                }
+                
+                
             }
+          
         });
     }
 
@@ -41,16 +60,18 @@ class LoginForm extends Component {
                 </div>
 
                 <div className="container">
-                    <label ><b>Username</b></label>
+                    <label ><b>Email</b></label>
                     <input type="text" placeholder="Enter Username" name="email" value={email} onChange={this.handleChange.bind(this)} />
 
                     <label ><b>Password</b></label>
                     <input type="password" placeholder="Enter Password" name="password" value={password} onChange={this.handleChange.bind(this)} />
 
                     <button type="submit" onClick={this.handleClick.bind(this)}>Login</button>
-                </div>
 
+                </div>
+                <ToastContainer autoClose={2000} />
             </form>
+
         );
     }
 }

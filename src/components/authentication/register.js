@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import './register.css';
 import { signup } from '../auth';
-
+import {  ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default class Register extends Component {
   constructor(props) {
     super(props)   
@@ -12,8 +13,9 @@ export default class Register extends Component {
       passwordrepeat: '',
       address: '',
       contactNo: '',
-      errorMsg : false
+      userType : 'user'
     } 
+    this.baseState = this.state
   }
 
   handleChange(event) {
@@ -26,12 +28,29 @@ export default class Register extends Component {
     if(this.state.password === this.state.passwordrepeat)
     {     
       signup(this.state).then((data) => {
-        
-      }).catch()
+       if(!!data.dataExist)
+       {
+        toast.warn("Email is already exist", {
+          position: toast.POSITION.TOP_RIGHT
+        });
+        this.setState(this.baseState)
+       }
+       else{
+        toast.success("Successfully signup", {
+          position: toast.POSITION.TOP_CENTER
+        });
+        this.props.history.push('/')
+       }
+
+      }).catch({
+
+      })
     }
     else
     {
-      this.setState({errorMsg : true})
+      toast.error("Password not match", {
+        position: toast.POSITION.TOP_RIGHT
+      });
     }
     
 }
@@ -51,13 +70,13 @@ export default class Register extends Component {
             <input type="text" placeholder="Enter Email" name="email" value={this.state.email} onChange={this.handleChange.bind(this)} required />
 
             <label ><b>Password</b></label>
-            <input type="password" placeholder="Enter Password" name="password" value={this.state.password} onChange={this.handleChange.bind(this)} required />
+            <input type="password" placeholder="Enter Password" name="password" maxLength="5" value={this.state.password} onChange={this.handleChange.bind(this)} required />
 
             <label ><b>Repeat Password</b></label>
-            <input type="password" placeholder="Repeat Password" name="passwordrepeat" value={this.state.passwordrepeat} onChange={this.handleChange.bind(this)} required />
-
+            <input type="password" placeholder="Repeat Password" maxLength="5" name="passwordrepeat" value={this.state.passwordrepeat} onChange={this.handleChange.bind(this)} required />
+           
             <label ><b>Address</b></label>
-            <input type="text" placeholder="Enter Address" name="address" value={this.state.address} onChange={this.handleChange.bind(this)} required />
+            <input type="text" placeholder="Enter Address" name="address"  value={this.state.address} onChange={this.handleChange.bind(this)} required />
 
             <label ><b>Contact No</b></label>
             <input type="text" placeholder="Enter Contact No" name="contactNo" value={this.state.contactNo} onChange={this.handleChange.bind(this)} required />
@@ -70,7 +89,9 @@ export default class Register extends Component {
             </div>
           </div>
         </form>
+        <ToastContainer autoClose={2000} />
       </div>
+      
     )
   }
 }
