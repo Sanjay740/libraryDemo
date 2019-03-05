@@ -17,7 +17,13 @@ const TableHeader = () => {
             return (   
                 <div className="modal-content">
                 <table>
-                    <TableHeader />
+                <tr>
+          <th>Id</th>
+          <th>BookName</th>
+          <th>Author</th>
+          <th>In Stock</th>
+          <th>Action</th>
+        </tr>
   <tr>
     <td>Jill</td>
     <td>Smith</td>

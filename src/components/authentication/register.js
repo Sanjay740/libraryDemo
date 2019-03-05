@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
 import './register.css';
-import { signup } from '../auth';
-import {  ToastContainer, toast } from 'react-toastify';
+import { doSignup } from '../../action/authAction'
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-export default class Register extends Component {
+import { connect } from 'react-redux';
+import { loginDispactAction } from '../../action/authAction';
+
+class Register extends Component {
   constructor(props) {
-    super(props)   
+    super(props)
     this.state = {
       userName: '',
       email: '',
@@ -13,9 +16,36 @@ export default class Register extends Component {
       passwordrepeat: '',
       address: '',
       contactNo: '',
-      userType : 'user'
-    } 
+      userType: 'user'
+    }
     this.baseState = this.state
+  }
+
+  componentWillReceiveProps(nextProps) {
+   if(nextProps.auth.data != null)
+    {    
+    if ((nextProps.auth.isEmailExist == true) && (nextProps.auth.success == false)) {
+      toast.warn(nextProps.auth.message, {
+        position: toast.POSITION.TOP_RIGHT
+      });
+      this.setState(this.baseState)
+    }
+    else {
+      if (nextProps.auth.data.userType == 'user') {
+        this.props.history.push('/');
+      }
+      else {
+        this.props.history.push('/adminDashboard');
+      }
+    }
+  }
+  }
+
+  componentDidMount() {
+    const data = localStorage.getItem('userData');
+        if (data != null) {
+            this.props.dispatch(loginDispactAction(data));
+        } 
   }
 
   handleChange(event) {
@@ -25,35 +55,16 @@ export default class Register extends Component {
 
   handleClick(event) {
     event.preventDefault();
-    if(this.state.password === this.state.passwordrepeat)
-    {     
-      signup(this.state).then((data) => {
-       if(!!data.dataExist)
-       {
-        toast.warn("Email is already exist", {
-          position: toast.POSITION.TOP_RIGHT
-        });
-        this.setState(this.baseState)
-       }
-       else{
-        toast.success("Successfully signup", {
-          position: toast.POSITION.TOP_CENTER
-        });
-        this.props.history.push('/')
-       }
-
-      }).catch({
-
-      })
+    if (this.state.password === this.state.passwordrepeat) {
+      this.props.dispatch(doSignup(this.state))      
     }
-    else
-    {
+    else {
       toast.error("Password not match", {
         position: toast.POSITION.TOP_RIGHT
       });
     }
-    
-}
+
+  }
 
   render() {
     return (
@@ -74,9 +85,9 @@ export default class Register extends Component {
 
             <label ><b>Repeat Password</b></label>
             <input type="password" placeholder="Repeat Password" maxLength="5" name="passwordrepeat" value={this.state.passwordrepeat} onChange={this.handleChange.bind(this)} required />
-           
+
             <label ><b>Address</b></label>
-            <input type="text" placeholder="Enter Address" name="address"  value={this.state.address} onChange={this.handleChange.bind(this)} required />
+            <input type="text" placeholder="Enter Address" name="address" value={this.state.address} onChange={this.handleChange.bind(this)} required />
 
             <label ><b>Contact No</b></label>
             <input type="text" placeholder="Enter Contact No" name="contactNo" value={this.state.contactNo} onChange={this.handleChange.bind(this)} required />
@@ -91,7 +102,17 @@ export default class Register extends Component {
         </form>
         <ToastContainer autoClose={2000} />
       </div>
-      
+
     )
   }
 }
+const mapStateToProps = (state) => ({
+  auth: state.auth.loginCredential
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  dispatch
+})
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register)

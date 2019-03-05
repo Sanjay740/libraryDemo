@@ -1,30 +1,70 @@
-import { LOGIN ,LOGOUT,ADMIN_LOGIN,ADMIN_LOGOUT} from './types';
+import { LOGIN, LOGOUT, WRONG_CREDENTIAL } from './types';
+import axios from 'axios';
 
-export const loginDispactAction = (response) => dispatch => {   
-    dispatch({
-        type : LOGIN,
-        payload :response
-    }) 
+
+const ENDPOINT = "http://localhost:4000/";
+
+export const doLogin = (data) => dispatch => {
+    axios.post(ENDPOINT + 'login', {
+        data
+    }).then(res => {
+        let response = res.data;
+        if ((response.emailExist == false) || (response.success == false)) {
+            dispatch(emailNotExist(response));
+        }
+        else {
+            localStorage.setItem('userData', JSON.stringify(response.data));
+            dispatch(userLoginAction(response));
+        }
+    })
+        .catch(err => {
+            console.log(err)
+        });
 }
 
-export const adminLoginDispactAction = (response) => dispatch => {   
-    dispatch({
-        type : ADMIN_LOGIN,
-        payload :response
-    })   
+const emailNotExist = data => ({
+    type: WRONG_CREDENTIAL,
+    payload: data
 
-}
+});
 
-export const logoutDispatchAction = ()=> dispatch => {
-    localStorage.removeItem('userData');
+const userLoginAction = data => ({
+    type: LOGIN,
+    payload: data
+
+});
+
+export const loginDispactAction = (response) => dispatch => {
     dispatch({
-        type : LOGOUT
+        type: LOGIN,
+        payload: { data: JSON.parse(response) }
     })
 }
 
-export const adminlogoutDispatchAction = ()=> dispatch => {
-    localStorage.removeItem('adminData');
+// signup process
+
+export const doSignup = (data) => dispatch => {
+    axios.post(ENDPOINT + 'signup', {
+        data
+    }).then(res => {
+        let response = res.data;
+        console.log(response)
+        if (!!response.emailExist) {
+            dispatch(emailNotExist(response));
+        }
+        else {
+            localStorage.setItem('userData', JSON.stringify(response.data));
+            dispatch(userLoginAction(response));
+        }
+    })
+        .catch(err => {
+            console.log(err)
+        });
+}
+
+export const logoutDispatchAction = (response) => dispatch => {
+    localStorage.removeItem('userData')
     dispatch({
-        type : ADMIN_LOGOUT
+        type: LOGOUT
     })
 }

@@ -1,37 +1,43 @@
-import {LOGIN, LOGOUT,ADMIN_LOGIN, ADMIN_LOGOUT} from '../action/types';
+import {LOGIN, LOGOUT,WRONG_CREDENTIAL} from '../action/types';
 
 const initialState = {    
-    loginCredential : {}
+    loginCredential : {},
+    isUserAuthenticate : false
 }
 
 export default function(state = initialState ,action)
-{   
+{  
     switch(action.type)
     {
+       
         case LOGIN:       
         return {
             ...state,
-            loginCredential : action.payload
+            loginCredential : {
+                isEmailExist :true,
+                success: true,
+                isUserAuthenticate : true,
+                data: action.payload.data,
+                userType: action.payload.data.userType
+            }
         }
 
-        case ADMIN_LOGIN:       
+        //Email  and password wrong
+        case WRONG_CREDENTIAL:
         return {
             ...state,
-            loginCredential : action.payload
-        }
+            loginCredential : { 
+                isEmailExist :action.payload.emailExist,
+                message: action.payload.message,
+                success: action.payload.success
+            }
+        } 
 
-        case LOGOUT:       
+        case LOGOUT:   
         return {
             ...state,
-            loginCredential : {"isLogin" : false}
+            loginCredential : {}
         }
-
-        case ADMIN_LOGOUT:       
-        return {
-            ...state,
-            loginCredential : {"isLogin" : false}
-        }
-        
         default :        
         return state
     }

@@ -1,15 +1,38 @@
 import React, { Component } from 'react';
 import { login } from '../auth';
 import { connect } from 'react-redux';
-import { loginDispactAction,adminLoginDispactAction } from '../../action/authAction'
+import { doLogin } from '../../action/authAction'
 import './register.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 class LoginForm extends Component {
     constructor(props) {
         super(props);
         this.state = { email: '', password: '', error: false };
         this.baseState = this.state
+    }
+
+    componentWillReceiveProps(nextProps) {    
+        if(nextProps.auth.data != null)
+        {       
+        if ((nextProps.auth.isEmailExist == false) || (nextProps.auth.success == false)) {
+            toast.warn(nextProps.auth.message, {
+                position: toast.POSITION.TOP_RIGHT
+            });
+            this.setState(this.baseState)
+        }
+        else {          
+            if(nextProps.auth.data.userType == 'user')
+            {
+                this.props.history.push('/');
+            }
+            else
+            {
+                this.props.history.push('/adminDashboard');
+            }
+        }
+    }
     }
 
     handleChange(event) {
@@ -20,35 +43,7 @@ class LoginForm extends Component {
     handleClick(event) {
         event.preventDefault();
         const { email, password } = this.state;
-
-        login(email, password).then((data) => {
-            if ((data.emailExist == false) || (data.success == false)) {
-                toast.warn(data.message, {
-                    position: toast.POSITION.TOP_RIGHT
-                });
-                this.setState(this.baseState)
-            }
-            else {
-                toast.success(data.message, {
-                    position: toast.POSITION.TOP_RIGHT
-                });
-                if(data.data.userType == 'user')
-                {
-                    localStorage.setItem('userData', JSON.stringify(data.data));
-                    this.props.dispatch(loginDispactAction(JSON.stringify(data.data)));
-                    this.props.history.push('/');
-                }
-                else
-                {
-                    localStorage.setItem('adminData', JSON.stringify(data.data));
-                    this.props.dispatch(adminLoginDispactAction(JSON.stringify(data.data)));
-                    this.props.history.push('/adminDashboard');
-                }
-                
-                
-            }
-          
-        });
+        this.props.dispatch(doLogin(this.state))
     }
 
     render() {
@@ -75,7 +70,12 @@ class LoginForm extends Component {
         );
     }
 }
+const mapStateToProps = (state) => ({
+    auth: state.auth.loginCredential
+})
 const mapDispatchToProps = (dispatch) => ({
     dispatch
 })
-export default connect(mapDispatchToProps)(LoginForm)
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm)
