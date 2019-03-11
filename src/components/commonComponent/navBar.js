@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import '../../App.css';
 import { connect } from 'react-redux';
-import { loginDispactAction, logoutDispatchAction } from '../../action/authAction';
+import {  logoutDispatchAction } from '../../action/authAction';
 
 class NavBar extends Component {
     constructor(props) {
@@ -23,20 +23,22 @@ class NavBar extends Component {
                     this.setState({ isUserLogin: false });
                 }
             }
-            else {                
-                this.setState({ isUserLogin: false });                
+            else {
+                this.setState({ isUserLogin: false });
             }
         }
     }
 
-    componentDidMount() {
-        const data = localStorage.getItem('userData');
-        if (data != null) {
-            this.props.dispatch(loginDispactAction(data));
-        }
-        else {
-            this.setState({ isUserLogin: false });
-        }
+    componentDidMount()
+    {
+        if ((!!this.props.auth.isEmailExist) && (!!this.props.auth.success)) {
+            if (!!this.props.auth.isUserAuthenticate) {
+                this.setState({ isUserLogin: this.props.auth.isUserAuthenticate, isUserType: this.props.auth.data.userType });
+            }
+            else {
+                this.setState({ isUserLogin: false });
+            }
+        }        
     }
 
     logout() {
@@ -62,9 +64,10 @@ class NavBar extends Component {
                 {!this.state.isUserLogin ? <Link to={`/memberLogin`} className="active">Login</Link> : null}
                 {((!!this.state.isUserLogin) && (this.state.isUserType != 'user')) ? <Link to={`/addBook`}>AddBook</Link> : null}
                 {!!this.state.isUserLogin && (this.state.isUserType == 'user') ? <Link to={`/memberLogin`} >Assigned Book</Link> : null}
+                {!!this.state.isUserLogin && (this.state.isUserType == 'admin') ? <Link to={`/assigningbook`} >Assigned Book</Link> : null}
                 {!!this.state.isUserLogin && (this.state.isUserType == 'user') ? <Link to={`/memberLogin`} >Returned Book</Link> : null}
                 {!this.state.isUserLogin ? <Link to={`/register`} className="registerClass">Register</Link> : null}
-                {!!this.state.isUserLogin ? <div className="dropdown">
+                {!!this.state.isUserLogin ? <div className="dropdown">               
                     <button onClick={this.logout.bind(this)} className="dropbtn">Logout
                     </button>
                 </div> : null}

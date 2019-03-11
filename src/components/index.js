@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import '../App.css';
-import booksData from '../fakeData/booksFakeData';
+// import booksData from '../fakeData/booksFakeData';
 import Modal from 'react-awesome-modal';
-
+import { connect } from 'react-redux';
+import { fetchAllBook } from '../action/adminAction'
 const TableHeader = () => {
   return (
     <thead>
@@ -37,10 +38,25 @@ class App extends Component {
       booksData: [],
       visible: false,
       previewData: {},
+      imageurl: "https://s3.us-east-2.amazonaws.com/librarydemobucket/libraryDemo/"
+    }
+  }
+  componentWillReceiveProps(nextProps)
+  {
+    if (nextProps.books != null) {      
+        this.setState({ booksData: nextProps.books.booksData })     
     }
   }
   componentDidMount() {
-    this.setState({ booksData: booksData });
+   if(this.props.auth.userType != 'user' && !!this.props.auth.isUserAuthenticate)
+   {
+    this.props.history.push('/adminDashboard');
+   }
+   else
+   {
+    this.props.history.push('/');
+    this.props.dispatch(fetchAllBook())
+   }
   }
 
   closeModal() {
@@ -59,10 +75,10 @@ class App extends Component {
     const bookListData =
       <div className="row col4Padding">
         {this.state.booksData.map(book => (
-          <div key={book.id} className="col-sm-4">
+          <div key={book._id} className="col-sm-4">
             <div className="grid-item">
               <div className="imgcontainer">
-                <img src={book.image} alt="Avatar" className="image" />
+                <img src={this.state.imageurl + book.image} alt="Avatar" className="image" />
                 <div className="middle">
                   <div  className="text">
                   <span >{book.author}</span>
@@ -96,4 +112,9 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  auth: state.auth.loginCredential,
+  books: state.books
+})
+
+export default connect(mapStateToProps)(App);

@@ -36,7 +36,13 @@ export default function(state = initialState ,action)
         case LOGOUT:   
         return {
             ...state,
-            loginCredential : {}
+            loginCredential : {
+                isEmailExist :false,
+                success: false,
+                isUserAuthenticate : false,
+                data: {},
+                userType: ''
+            }
         }
         default :        
         return state

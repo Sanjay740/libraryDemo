@@ -37,7 +37,7 @@ const userLoginAction = data => ({
 export const loginDispactAction = (response) => dispatch => {
     dispatch({
         type: LOGIN,
-        payload: { data: JSON.parse(response) }
+        payload: { data: response }
     })
 }
 
