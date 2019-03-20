@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import './admin.css';
+import '../authentication/register.css';
 import { addBook,resetbookData,editBook,updateBook } from '../../action/adminAction'
 import { connect } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
@@ -18,6 +18,7 @@ class AddBook extends Component {
 
   componentWillReceiveProps(nextProps)
   {  
+    console.log(nextProps)
     if(!!this.props.match.params.id && !nextProps.books.isBookAdded)
     {
       let data = nextProps.books.editedbookData
@@ -71,8 +72,8 @@ class AddBook extends Component {
     const formData = new FormData();
     formData.append('image', image);
     formData.append('filename', image.name)
-    formData.append('data', JSON.stringify(this.state))
-    this.props.dispatch(addBook(formData))    
+    // formData.append('data', JSON.stringify(this.state))
+    this.props.dispatch(addBook(formData,this.state))    
   })
 }
 else

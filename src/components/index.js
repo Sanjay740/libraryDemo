@@ -1,21 +1,9 @@
 import React, { Component } from 'react';
 import '../App.css';
-// import booksData from '../fakeData/booksFakeData';
 import Modal from 'react-awesome-modal';
 import { connect } from 'react-redux';
 import { fetchAllBook } from '../action/adminAction'
-const TableHeader = () => {
-  return (
-    <thead>
-      <tr>
-        <th>Book Name</th>
-        <th>Author</th>
-        <th>Published Date</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-  );
-}
+
 
 const Header = () => {
   return (
@@ -38,7 +26,7 @@ class App extends Component {
       booksData: [],
       visible: false,
       previewData: {},
-      imageurl: "https://s3.us-east-2.amazonaws.com/librarydemobucket/libraryDemo/"
+      imageurl: "https://s3.us-east-2.amazonaws.com/librarydemo/libraryDemo/"
     }
   }
   componentWillReceiveProps(nextProps)
@@ -48,7 +36,7 @@ class App extends Component {
     }
   }
   componentDidMount() {
-   if(this.props.auth.userType != 'user' && !!this.props.auth.isUserAuthenticate)
+   if(this.props.auth.userType == 'admin' && !!this.props.auth.isUserAuthenticate)
    {
     this.props.history.push('/adminDashboard');
    }
@@ -75,7 +63,7 @@ class App extends Component {
     const bookListData =
       <div className="row col4Padding">
         {this.state.booksData.map(book => (
-          <div key={book._id} className="col-sm-4">
+          <div key={book.id} className="col-sm-4">
             <div className="grid-item">
               <div className="imgcontainer">
                 <img src={this.state.imageurl + book.image} alt="Avatar" className="image" />

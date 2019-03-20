@@ -40,7 +40,8 @@ export default function(state = initialState ,action)
             message: '' ,
         }
 
-        case EDIT_BOOK:       
+        case EDIT_BOOK:   
+        console.log("EDIT_BOOK",action.payload)    
         return {
             ...state,
             editedbookData : action.payload          

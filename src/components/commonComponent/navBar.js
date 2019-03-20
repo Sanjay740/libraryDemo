@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import '../../App.css';
 import { connect } from 'react-redux';
 import {  logoutDispatchAction } from '../../action/authAction';
-
+import Amplify, { Auth } from 'aws-amplify'
 class NavBar extends Component {
     constructor(props) {
         super(props);
@@ -14,10 +14,11 @@ class NavBar extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        console.log(nextProps)
         if (nextProps.auth.data != null) {
             if ((!!nextProps.auth.isEmailExist) && (!!nextProps.auth.success)) {
                 if (!!nextProps.auth.isUserAuthenticate) {
-                    this.setState({ isUserLogin: nextProps.auth.isUserAuthenticate, isUserType: nextProps.auth.data.userType });
+                    this.setState({ isUserLogin: nextProps.auth.isUserAuthenticate, isUserType: nextProps.auth.userType });
                 }
                 else {
                     this.setState({ isUserLogin: false });
@@ -29,22 +30,13 @@ class NavBar extends Component {
         }
     }
 
-    componentDidMount()
-    {
-        if ((!!this.props.auth.isEmailExist) && (!!this.props.auth.success)) {
-            if (!!this.props.auth.isUserAuthenticate) {
-                this.setState({ isUserLogin: this.props.auth.isUserAuthenticate, isUserType: this.props.auth.data.userType });
-            }
-            else {
-                this.setState({ isUserLogin: false });
-            }
-        }        
-    }
+    
 
     logout() {
-        if (!!this.state.isUserLogin) {
+        Auth.signOut().then(() => {            
             this.props.dispatch(logoutDispatchAction());
-        }
+        });
+       
     }
 
 
@@ -59,13 +51,10 @@ class NavBar extends Component {
 
     render() {
         return (
-            <div className="topnav" id="myTopnav">
+            <div className="topnav" id="myTopnav"> 
                 {((!!this.state.isUserLogin || !this.state.isUserLogin) && (this.state.isUserType == 'user')) ? <Link to={`/`} className="active">Home</Link> : <Link to={`/adminDashboard`} className="active">Home</Link>}
-                {!this.state.isUserLogin ? <Link to={`/memberLogin`} className="active">Login</Link> : null}
                 {((!!this.state.isUserLogin) && (this.state.isUserType != 'user')) ? <Link to={`/addBook`}>AddBook</Link> : null}
-                {!!this.state.isUserLogin && (this.state.isUserType == 'user') ? <Link to={`/memberLogin`} >Assigned Book</Link> : null}
-                {!!this.state.isUserLogin && (this.state.isUserType == 'admin') ? <Link to={`/assigningbook`} >Assigned Book</Link> : null}
-                {!!this.state.isUserLogin && (this.state.isUserType == 'user') ? <Link to={`/memberLogin`} >Returned Book</Link> : null}
+                {!!this.state.isUserLogin && (this.state.isUserType == 'user') ? <Link to={`/assigningedbook`} >Assigned Book</Link> : null}
                 {!this.state.isUserLogin ? <Link to={`/register`} className="registerClass">Register</Link> : null}
                 {!!this.state.isUserLogin ? <div className="dropdown">               
                     <button onClick={this.logout.bind(this)} className="dropbtn">Logout

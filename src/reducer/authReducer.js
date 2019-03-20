@@ -1,50 +1,37 @@
-import {LOGIN, LOGOUT,WRONG_CREDENTIAL} from '../action/types';
+import { LOGIN, LOGOUT, WRONG_CREDENTIAL } from '../action/types';
 
-const initialState = {    
-    loginCredential : {},
-    isUserAuthenticate : false
+const initialState = {
+    loginCredential: {},
+    isUserAuthenticate: false
 }
 
-export default function(state = initialState ,action)
-{  
-    switch(action.type)
-    {
-       
-        case LOGIN:       
-        return {
-            ...state,
-            loginCredential : {
-                isEmailExist :true,
-                success: true,
-                isUserAuthenticate : true,
-                data: action.payload.data,
-                userType: action.payload.data.userType
-            }
-        }
+export default function (state = initialState, action) {
+    switch (action.type) {
 
-        //Email  and password wrong
-        case WRONG_CREDENTIAL:
-        return {
-            ...state,
-            loginCredential : { 
-                isEmailExist :action.payload.emailExist,
-                message: action.payload.message,
-                success: action.payload.success
+        case LOGIN:
+            return {
+                ...state,
+                loginCredential: {
+                    isEmailExist: true,
+                    success: true,
+                    isUserAuthenticate: true,
+                    data: action.payload,
+                    userType: action.payload['custom:usertype']
+                }
             }
-        } 
-
-        case LOGOUT:   
-        return {
-            ...state,
-            loginCredential : {
-                isEmailExist :false,
-                success: false,
-                isUserAuthenticate : false,
-                data: {},
-                userType: ''
+            
+        case LOGOUT:
+            return {
+                ...state,
+                loginCredential: {
+                    isEmailExist: false,
+                    success: false,
+                    isUserAuthenticate: false,
+                    data: {},
+                    userType: ''
+                }
             }
-        }
-        default :        
-        return state
+        default:
+            return state
     }
 }
