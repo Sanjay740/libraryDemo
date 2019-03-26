@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import '../authentication/register.css';
 import { addBook,resetbookData,editBook,updateBook } from '../../action/adminAction'
 import { connect } from 'react-redux';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 class AddBook extends Component {
   constructor(props) {
@@ -120,7 +118,6 @@ else
 
           </div>
         </form>
-        <ToastContainer autoClose={2000} />
       </div>
     )
   }

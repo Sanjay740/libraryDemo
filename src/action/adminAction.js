@@ -26,6 +26,7 @@ export const addBook = (data, stateData) => dispatch => {
                "content-type": "application/json"
           }
      }).then(res => {
+          console.log(res)
           client.mutate({
                mutation: gql(GraphqlAPI.addBook),
                variables: {

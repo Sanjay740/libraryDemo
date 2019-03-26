@@ -16,7 +16,7 @@ export default function (state = initialState, action) {
                     success: true,
                     isUserAuthenticate: true,
                     data: action.payload,
-                    userType: action.payload['custom:usertype']
+                   userType: action.payload['custom:usertype']
                 }
             }
             

@@ -6,9 +6,8 @@ import Footer from './components/commonComponent/footer';
 import adminDashboard from './components/admin/adminDashboard';
 import addBook from './components/admin/addBook';
 import assigningBook from './components/admin/assignBook'
-import history from './history'
-import { loginDispactAction, userLoginAction } from './action/authAction';
-import setAuthToken from './setToken';
+// import history from './history'
+import {  userLoginAction } from './action/authAction';
 import store from './store';
 import AWS from 'aws-sdk'
 import Amplify, { Auth } from 'aws-amplify'
@@ -127,4 +126,3 @@ class Routing extends Component {
 let AppWrapper = withAuthenticator(Routing, { signUpConfig })
 
 export default AppWrapper;
-// export default Routing;

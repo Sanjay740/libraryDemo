@@ -7,7 +7,6 @@ const TableHeader = () => {
       <tr>
         <th>BookName</th>
         <th>Author</th>
-        <th>In Stock</th>
         <th>Description</th>
         <th>Action</th>
       </tr>
@@ -38,7 +37,7 @@ class assignBook extends Component {
         {/* </tbody> */}
       </table>
       </div>
-      );
+            );
     }
   }
 
